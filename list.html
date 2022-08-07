@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="img/logo_sticker.png" />
+    <title>Language Coffee || Atlas</title>
+    <link rel="icon" href="img/logo_sticker.svg">
+    <link rel="stylesheet" href="stylesList.css">
+</head>
+<body>
+    <div class="formContainer" id="app">
+        <img src="img/logo_sticker.svg" hidden alt="Atlas club">
+        <div class="header">
+            <h1>List of all registered participants</h1>
+        </div>
+        <h5>Total: {{ data.length }}</h5>
+        <div class="table">
+            <table>
+                <tr v-for="(user, index) in data" :key="index">
+                    <td class="name">{{ user.data.name }}</td>
+                    <td class="email"><a :href="`mailto:${user.data.email}`">{{user.data.email}}</a></td>
+                    <td class="phone"><a :href="`tel:${user.data.phone}`">{{user.data.phone}}</a> </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <footer>
+        <span>Copyright <a href="https://www.instagram.com/atlasian_way/">Atlas</a> </span>
+        <img src="img/logo.svg" alt="Atlas club">
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                message: 'eeeess',
+                data: [],
+            },
+            mounted: function () {
+                axios.get('https://api.netlify.com/api/v1/sites/c4c406a2-0434-47f4-a2fa-df844b12644d/submissions', {
+                    headers: {
+                        'Authorization': `Bearer Xqs_99vzyq0niSCIbBGdvU2IaQ1r1OdBsgJgVUA3BkE`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((res) => {
+                    this.data = res.data;
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+            }
+        })
+    </script>
+</body>
+</html>
